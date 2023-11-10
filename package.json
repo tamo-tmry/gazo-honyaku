@@ -12,6 +12,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "nuxt": "^3.8.1",
+    "openai": "^4.17.4",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   }
