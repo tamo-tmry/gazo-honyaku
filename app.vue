@@ -37,6 +37,9 @@ import OpenAI from 'openai'
 const apiKey = useRuntimeConfig().public.apiKey
 const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
+const ocrPrompt = useRuntimeConfig().public.ocrPrompt
+const translatePrompt = useRuntimeConfig().public.translatePrompt
+
 const imageBase64 = ref('') as any;
 const isCompletedFileUpload = ref(false);
 const isFileUploading = ref(false);
@@ -71,7 +74,7 @@ const extractChatFromImage = async () => {
       {
         role: "user",
         content: [
-          { type: "text", text: "Please extract the text of the conversation that appears to be a chat from the image." },
+          { type: "text", text: ocrPrompt },
           {
             type: "image_url",
             image_url: {
@@ -91,7 +94,7 @@ const translateToJapanese = async () => {
     model:"gpt-4",
     messages:[
       {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": `Convert the non-Japanese sentences and words in the chat content below into Japanese. The following is a chat-style conversation. '${imageTextContent.value}'`},
+      {"role": "user", "content": `${translatePrompt} '${imageTextContent.value}'`},
     ]
   })
   translatedText.value = response.choices[0].message.content || '';
