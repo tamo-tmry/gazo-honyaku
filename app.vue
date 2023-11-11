@@ -8,8 +8,13 @@
     <figure><img :src="imageBase64" alt="" width="500" /></figure>
   
     <ul class="preformatted-text-wrap">
-      <li class="preformatted-text">{{ imageTextContent }}</li>
-      <li class="preformatted-text">{{ translatedText }}</li>
+      <li v-show="imageTextContent" class="preformatted-text">
+        <h3>Before</h3>
+        <p>{{ imageTextContent }}</p></li>
+      <li v-show="translatedText" class="preformatted-text">
+        <h3>After</h3>
+        <p>{{ translatedText }}</p>
+      </li>
     </ul>
   </div>
   <div>
@@ -124,6 +129,7 @@ img {
 }
 
 .preformatted-text {
-    white-space: pre-wrap;
+  width: 50%;
+  white-space: pre-wrap;
 }
 </style>
