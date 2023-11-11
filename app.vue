@@ -97,7 +97,7 @@ const translateAdditionalText = async () => {
     model:"gpt-4",
     messages:[
       {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": `The following sentence and words, please convert them into English. '${additionalTranslatedText.value}'`},
+      {"role": "user", "content": `The following sentence and words, please convert them into Japanese. '${additionalTranslatedText.value}'`},
     ]
   })
   translatedAdditionalText.value = response.choices[0].message.content || '';
