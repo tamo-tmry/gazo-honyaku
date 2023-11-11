@@ -1,5 +1,5 @@
 <template>
-  <UContainer v-if="!translatedText" vclass="flex h-screen justify-center items-center">
+  <UContainer v-if="!translatedText" class="flex h-screen justify-center items-center">
     <UButton v-if="!isFileUploading && !isCompletedFileUpload" class="relative" size="xl" icon="i-heroicons-clipboard-document" color="gray">
       <!-- スクリプトで対処した方が良いかも -->
       <UInput class="absolute top-0 left-0 opacity-0" type="file" @change="uploadImage" />
@@ -14,18 +14,18 @@
   </UContainer>
  
   <div v-else>
-    <figure><img :src="imageBase64" alt="" width="500" /></figure>
+    <figure class="ma-0 pa-0"><img class="d-block" :src="imageBase64" alt="" width="500" /></figure>
     <UCard>
       <template #header>
         <p>翻訳前</p>
       </template>
-      <pre>{{ imageTextContent }}</pre>
+      <p class="whitespace-pre-wrap">{{ imageTextContent }}</p>
     </UCard>
     <UCard>
       <template #header>
         <p>翻訳後</p>
       </template>
-      <pre>{{ translatedText }}</pre>
+      <pre class="whitespace-pre-wrap">{{ translatedText }}</pre>
     </UCard>
   </div>
 </template>
@@ -97,26 +97,3 @@ const translateToJapanese = async () => {
   translatedText.value = response.choices[0].message.content || '';
 }
 </script>
-
-<style scoped>
-figure {
-  margin: 0;
-  padding: 0;
-}
-
-img {
-  display: block;
-  margin: 0;
-  width: 100%;
-}
-
-.preformatted-text-wrap {
-  display: flex;
-  list-style: none;
-}
-
-.preformatted-text {
-  width: 50%;
-  white-space: pre-wrap;
-}
-</style>
