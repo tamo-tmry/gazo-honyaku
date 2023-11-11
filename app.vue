@@ -91,7 +91,7 @@ const extractChatFromImage = async () => {
 // チャットをGPT-4に投げ、日本語以外を翻訳する
 const translateToJapanese = async () => {
   const response = await openai.chat.completions.create({
-    model:"gpt-4",
+    model:"gpt-4-1106-preview",
     messages:[
       {"role": "system", "content": "You are a helpful assistant."},
       {"role": "user", "content": `${translatePrompt} '${imageTextContent.value}'`},
