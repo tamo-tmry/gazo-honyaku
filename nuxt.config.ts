@@ -6,4 +6,5 @@ export default defineNuxtConfig({
       apiKey: process.env.OPENAI_API_KEY,
     }
   },
+  modules: ['@nuxt/ui']
 })

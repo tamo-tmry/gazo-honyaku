@@ -1,29 +1,32 @@
 <template>
-  <div class="container">
-    <h2>翻訳したい画像をアップロード</h2>
-    <p>画像をアップロードすると、画像内のチャットを抜き出し、日本語以外を翻訳します。</p>
-    <input type="file" @change="uploadImage">
-    <button @click="submit" :disabled="isCompletedFileUpload">アップロード</button>
+  <UContainer v-if="!translatedText" vclass="flex h-screen justify-center items-center">
+    <UButton v-if="!isFileUploading && !isCompletedFileUpload" class="relative" size="xl" icon="i-heroicons-clipboard-document" color="gray">
+      <!-- スクリプトで対処した方が良いかも -->
+      <UInput class="absolute top-0 left-0 opacity-0" type="file" @change="uploadImage" />
+    </UButton>
 
+    <UButton
+      v-if="isFileUploading && !isCompletedFileUpload && !translatedText"
+      loading
+      size="xl"
+      color="gray"
+    />
+  </UContainer>
+ 
+  <div v-else>
     <figure><img :src="imageBase64" alt="" width="500" /></figure>
-  
-    <ul class="preformatted-text-wrap">
-      <li v-show="imageTextContent" class="preformatted-text">
-        <h3>Before</h3>
-        <p>{{ imageTextContent }}</p></li>
-      <li v-show="translatedText" class="preformatted-text">
-        <h3>After</h3>
-        <p>{{ translatedText }}</p>
-      </li>
-    </ul>
-  </div>
-  <div>
-    <h2>うまく翻訳されない文章がある場合</h2>
-    <p>以下のフォームに翻訳したい文章を入力してください。</p>
-    <textarea v-model="additionalTranslatedText" cols="40" rows="2"></textarea>
-    <button @click="translateAdditionalText">翻訳</button>
-
-    <p>{{ translatedAdditionalText }}</p>
+    <UCard>
+      <template #header>
+        <p>翻訳前</p>
+      </template>
+      <pre>{{ imageTextContent }}</pre>
+    </UCard>
+    <UCard>
+      <template #header>
+        <p>翻訳後</p>
+      </template>
+      <pre>{{ translatedText }}</pre>
+    </UCard>
   </div>
 </template>
 
@@ -35,28 +38,24 @@ const apiKey = useRuntimeConfig().public.apiKey
 const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
 const imageBase64 = ref('') as any;
-const isCompletedFileUpload = ref(true);
+const isCompletedFileUpload = ref(false);
+const isFileUploading = ref(false);
 const imageTextContent = ref('');
-
 const translatedText = ref('');
-const translatedAdditionalText = ref('');
-
-const additionalTranslatedText = ref('');
 
 // 画像をアップロードし、base64に変換する
 const uploadImage = async (event: any) => {
+  isFileUploading.value = true;
   const file = event.target.files[0];
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     imageBase64.value = e.target!.result;
-    isCompletedFileUpload.value = false;
+    await extractChatFromImage()
+    await translateToJapanese()
+    isFileUploading.value = false;
+    isCompletedFileUpload.value = true;
   }
   reader.readAsDataURL(file);
-}
-
-const submit = async () => {
-  await extractChatFromImage()
-  await translateToJapanese()
 }
 
 // 画像からチャットの抜き出し
@@ -96,18 +95,6 @@ const translateToJapanese = async () => {
     ]
   })
   translatedText.value = response.choices[0].message.content || '';
-}
-
-// 単語、文章をGPT-4に投げ、日本語以外を翻訳する
-const translateAdditionalText = async () => {
-  const response = await openai.chat.completions.create({
-    model:"gpt-4",
-    messages:[
-      {"role": "system", "content": "You are a helpful assistant."},
-      {"role": "user", "content": `Please translate the following sentence and words into Japanese. Provide only the translated content without any additional comments or responses. '${additionalTranslatedText.value}'`},
-    ]
-  })
-  translatedAdditionalText.value = response.choices[0].message.content || '';
 }
 </script>
 
