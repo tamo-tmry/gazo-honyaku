@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <h2>翻訳したい画像をアップロード</h2>
     <p>画像をアップロードすると、画像内のチャットを抜き出し、日本語以外を翻訳します。</p>
     <input type="file" @change="uploadImage">
     <button @click="submit" :disabled="isCompletedFileUpload">アップロード</button>
 
+    <figure><img :src="imageBase64" alt="" width="500" /></figure>
+  
     <ul class="preformatted-text-wrap">
       <li class="preformatted-text">{{ imageTextContent }}</li>
       <li class="preformatted-text">{{ translatedText }}</li>
@@ -105,6 +107,17 @@ const translateAdditionalText = async () => {
 </script>
 
 <style scoped>
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+
 .preformatted-text-wrap {
   display: flex;
   list-style: none;
