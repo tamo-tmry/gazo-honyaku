@@ -19,7 +19,7 @@
 リポジトリをクローンします。
 
 ```bash
-git clone git@github.com:tamo-tmry/gazo-honyaku.git
+git clone https://github.com/tamo-tmry/gazo-honyaku.git
 ```
 
 依存関係をインストールします。
