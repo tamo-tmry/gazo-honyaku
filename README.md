@@ -1,75 +1,49 @@
-# Nuxt 3 Minimal Starter
+# 画像翻訳機
+## 概要
+このプロジェクトは、画像アップロード、画像内テキストのOCRによる抽出、そしてGPT-4を使用したテキストの翻訳機能を備えています。  
+ユーザーは画像をアップロードし、その画像からテキストを抽出し、翻訳することができます。
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 機能
+- 画像のアップロードとBase64形式への変換
+- OpenAIのOCRモデルを使用した画像内テキストの抽出
+- GPT-4を使用したテキストの翻訳
 
-## Setup
+## 始め方
+このプロジェクトをローカルで実行するには、以下の手順に従ってください。
 
-Make sure to install the dependencies:
+### 必要条件
+- Node.js
+- yarn
+
+### インストール
+リポジトリをクローンします。
 
 ```bash
-# npm
-npm install
+git clone git@github.com:tamo-tmry/gazo-honyaku.git
+```
 
-# pnpm
-pnpm install
-
-# yarn
+依存関係をインストールします。
+```bash
 yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+### 環境設定
+.env ファイルをプロジェクトのルートに作成し、以下のように設定します。
 
-Start the development server on `http://localhost:3000`:
+```.env
+OPENAI_API_KEY=OpenAI APIキー
+OCR_PROMPT=OCR用のプロンプト
+TRANSLATE_PROMPT=翻訳用のプロンプト
+```
+
+### 実行
+アプリケーションをローカルで実行します。
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### 使用技術
+- Vue.js(Nuxt.js v3)
+- TypeScript
+- OpenAI API
